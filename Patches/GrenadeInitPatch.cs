@@ -13,7 +13,7 @@ using SPT.Custom.Utils;
 
 namespace CookingGrenades.Patches
 {
-    public class PlayerGrenadeHandsControllerPatch : ModulePatch
+    public class GrenadeInitPatch : ModulePatch
     {
         // private static FieldInfo grenadeEmission_0FieldInfo = AccessTools.Field(typeof(Player.BaseGrenadeHandsController), "grenadeEmission_0");
         protected override MethodBase GetTargetMethod()
@@ -30,19 +30,10 @@ namespace CookingGrenades.Patches
             };
             return AccessTools.Method(typeof(Grenade), nameof(Grenade.Init), parameterTypes);
         }
-
-        [PatchPrefix]
-        public static void PatchPrefix(Grenade __instance,float timeSpent, ref float __state)
-        {
-            // var grenadeEmission_0 = grenadeEmission_0FieldInfo.GetValue(__instance) as GrenadeEmission;
-
-            Plugin.log.LogInfo($"Grenade {timeSpent}");
-
-        }        
         [PatchPostfix]
         public static void PatchPostfix(Grenade __instance,float timeSpent, float __state)
         {
-            Plugin.log.LogInfo($"Grenade {__instance.Player.Nickname} {timeSpent}");
+            // Plugin.log.LogInfo($"Grenade {__instance.Player.Nickname} {timeSpent}");
         }
     }
 }
