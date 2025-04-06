@@ -43,4 +43,10 @@ public class MenuScreenPatch : ModulePatch
     }
 }
 
-//
+/* SPT 3.11 Snapshot
+
+    public void method_8(EMenuType menuType)
+    {
+        ScreenController.SelectMenuItem(menuType);
+    }
+*/
