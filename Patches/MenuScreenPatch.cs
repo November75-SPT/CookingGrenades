@@ -13,6 +13,7 @@ using SPT.Custom.Utils;
 using EFT.InputSystem;
 using CookingGrenades.Utils;
 using EFT.UI;
+using System.Linq;
 
 namespace CookingGrenades.Patches;
 
@@ -20,7 +21,10 @@ public class MenuScreenPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-            return AccessTools.Method(typeof(MenuScreen), nameof(MenuScreen.method_8));
+        return AccessTools.GetDeclaredMethods(typeof(MenuScreen))
+                    .FirstOrDefault(m => m.ReturnType == typeof(void) &&
+                                         m.GetParameters().Length == 1 &&
+                                         m.GetParameters()[0].ParameterType == typeof(EMenuType));
     }
 
     [PatchPostfix]
@@ -38,3 +42,5 @@ public class MenuScreenPatch : ModulePatch
         }
     }
 }
+
+//
