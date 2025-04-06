@@ -24,7 +24,7 @@ namespace CookingGrenades
             ConfigManager.Init(Config);
             Utils.FuseTimeTester.Init();
 
-            new PlayerGrenadeHandsControllerPatch().Enable();
+            new GrenadeInitPatch().Enable();
             new GrenadeHandsControllermethod_2Patch().Enable();
             new PlayerGrenadeHandsControllerHandleFireInputPatch().Enable();
             new PlayerGrenadeHandsControllerHandleAltFireInputPatch().Enable();
