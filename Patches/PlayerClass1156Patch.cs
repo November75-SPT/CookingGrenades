@@ -52,12 +52,20 @@ public class GrenadeHandsControllermethod_2Patch : ModulePatch
 
 
 
-/* 3.11 spt
+/* 3.11 SPT Snapshot
 
+    public class GrenadeHandsController : BaseGrenadeHandsController, IHandsThrowController, GInterface172, IHandsController, GInterface170
+    {
+        public abstract class Class1153 : Class1152<GrenadeHandsController>
+        {
+        }
+        public class Class1156 : Class1153
+        {
             public void method_2(bool low = false)
             {
                 gparam_0.transform_1.gameObject.SetActive(value: false);
                 gparam_0.vmethod_1(0f, low);
             }
-
+        }
+    }
 */
