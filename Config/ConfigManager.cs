@@ -33,15 +33,15 @@ internal static class ConfigManager
         #region RealisticFuseTime
 
         RealisticFuseTimeEnable = configFile.Bind(
-            "1. Realistic Fuse Iime", 
-            "Realistic Fuse Iime Enable", 
+            "1. Realistic Fuse Time", 
+            "Realistic Fuse Time Enable", 
             true, 
             new ConfigDescription(
                 "",
                 null,
                 new ConfigurationManagerAttributes {}));
         FuseTimeSpreadFactor = configFile.Bind(
-            "1. Realistic Fuse Iime", 
+            "1. Realistic Fuse Time", 
             "Fuse Time Spread Factor", 
             0.0666666f, 
             new ConfigDescription(
