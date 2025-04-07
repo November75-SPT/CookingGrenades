@@ -33,10 +33,11 @@ public static class GrenadeCookingHelper
             Plugin.log.LogError("Can't Find Sound Lever Event");
         }
 
-        // Notify user and start cooking
-        NotificationManagerClass.DisplayMessageNotification("Cook Start");
+        if (ConfigManager.EnableCookingNotification.Value)
+        {
+            NotificationManagerClass.DisplayMessageNotification("Cooking Started");
+        }
         cookingTimer.StartCooking(controller);
-        Plugin.log.LogInfo($"start cooking {cookingTimer.CookingStartTime}");
-        
+        Plugin.log.LogInfo($"start cooking {cookingTimer.CookingStartTime}");        
     }
 }

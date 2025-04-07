@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 namespace CookingGrenades.Config;
 internal static class ConfigManager
 {
+    public static ConfigEntry<bool> EnableCookingNotification;
     #region RealisticFuseTime
     public static ConfigEntry<bool> RealisticFuseTimeEnable;
     public static ConfigEntry<float> FuseTimeSpreadFactor;
@@ -21,6 +22,14 @@ internal static class ConfigManager
 
     public static void Init(ConfigFile configFile)
     {
+        EnableCookingNotification = configFile.Bind(
+            "0. Cooking Grenades", 
+            "Enable Cooking Notification", 
+            false, 
+            new ConfigDescription(
+                "Show a notification when grenade cooking starts",
+                null,
+                new ConfigurationManagerAttributes {}));
         #region RealisticFuseTime
 
         RealisticFuseTimeEnable = configFile.Bind(
