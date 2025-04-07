@@ -39,7 +39,7 @@ internal static class ConfigManager
             new ConfigDescription(
                 "",
                 null,
-                new ConfigurationManagerAttributes {}));
+                new ConfigurationManagerAttributes {Order=2}));
         FuseTimeSpreadFactor = configFile.Bind(
             "1. Realistic Fuse Time", 
             "Fuse Time Spread Factor", 
@@ -47,7 +47,7 @@ internal static class ConfigManager
             new ConfigDescription(
                 "", 
                 new AcceptableValueRange<float>(0.001f, 2f),
-                new ConfigurationManagerAttributes {}));       
+                new ConfigurationManagerAttributes {Order=1}));       
                                         
         #endregion RealisticFuseTime
         
