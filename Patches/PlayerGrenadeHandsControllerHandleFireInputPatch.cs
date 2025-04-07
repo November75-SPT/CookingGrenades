@@ -24,21 +24,7 @@ public class PlayerGrenadeHandsControllerHandleFireInputPatch : ModulePatch
     [PatchPostfix]
     public static void PatchPostfix(Player.GrenadeHandsController __instance, ref float __state)
     {
-        // pulling pin off animation state is fullPathHash: 220670101, hash: -1433640516
-        // 		{ -1433640516, "FIRE START" },
-        // you can find StateByName in GClass736
-        // also check WeaponAnimEventsQueueDebug
         var animator = __instance.FirearmsAnimator.Animator;
-
-        // from WeaponAnimEventsQueueDebug.OnGUI
-        // __instance.AnimationEventsEmitter.EventsSequenceData.AnimationEventsDebugQueue;       
-        // foreach (AnimationEventSystem.AnimationEventsSequenceData.GStruct115 item in __instance.AnimationEventsEmitter.EventsSequenceData.AnimationEventsDebugQueue)
-        // {
-            
-        // }
-        // there is item.EventName is sound but i don't know how to do that
-
-
         var cookingTimer = CookingGrenades.GrenadeCookingManager.GetCookingTimer();
         if (__instance.WaitingForLowThrow && !cookingTimer.IsCooking && Utils.AnimationUtils.IsRemovePullRingCompleted(animator))
         {
