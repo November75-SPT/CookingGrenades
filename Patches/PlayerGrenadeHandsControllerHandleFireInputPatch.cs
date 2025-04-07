@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using EFT;
 using SPT.Custom.Utils;
 using EFT.Animations;
+using System.Linq;
 
 namespace CookingGrenades.Patches
 {
@@ -45,6 +46,27 @@ namespace CookingGrenades.Patches
                 cookingTimer.SetCookingItem(__instance.Item);
                 if (!cookingTimer.IsCooking) 
                 {
+                    // make sound
+                    // find lever sound                                        
+                    AnimationEventSystem.AnimationEvent leverEvent = null;
+                    leverEvent = __instance.AnimationEventsEmitter._animationEventsStateBehaviours
+                        // Only consider objects that are of type AnimationEventsStateBehaviour
+                        .OfType<AnimationEventSystem.AnimationEventsStateBehaviour>()
+                        // Each AnimationEventsStateBehaviour contains a list of AnimationEvents
+                        // SelectMany flattens all those lists into a single sequence for easy searching
+                        .SelectMany(x => x.AnimationEvents)
+                        .FirstOrDefault(evt => evt._functionName == "Sound" && evt.Parameter.StringParam == "Lever");
+                    if (leverEvent != null)
+                    {                        
+                        var currentState = animator.GetCurrentAnimatorStateInfo(1);
+                        // add sound event 
+                        __instance.AnimationEventsEmitter.ReceiveEvent(leverEvent, animator, currentState, currentState.normalizedTime);
+                    }
+                    else
+                    {
+                        Plugin.log.LogError($"Can't Find Sound Lever Event");
+                    }
+
                     NotificationManagerClass.DisplayMessageNotification("Cook Start");
                     cookingTimer.StartCooking(__instance);
                     Plugin.log.LogInfo($"start cooking {cookingTimer.CookingStartTime}");
