@@ -21,18 +21,15 @@ public class MenuScreenPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.GetDeclaredMethods(typeof(MenuScreen))
-                    .FirstOrDefault(m => m.ReturnType == typeof(void) &&
-                                         m.GetParameters().Length == 1 &&
-                                         m.GetParameters()[0].ParameterType == typeof(EMenuType));
+        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.ShowScreen));
     }
-
     [PatchPostfix]
-    public static void PatchPostfix(MenuScreen __instance)
+    public static void PatchPostfix(MainMenuControllerClass __instance)
     {
         if (!ConfigManager.UserWarningConfirmed.Value)
         {
-            string message = "Cooking a grenade in real life is extremely dangerous. Without proper training, it can explode and cause death or serious injury. Do you understand?";
+            string message = "Cooking a grenade in real life is extremely dangerous. Without proper training, it can explode and cause death or serious injury.\n"+
+                             "Do you understand?";
             EFT.UI.ItemUiContext.Instance.ShowMessageWindow(
                 message,
                 () => ConfigManager.UserWarningConfirmed.Value = true,
@@ -42,11 +39,3 @@ public class MenuScreenPatch : ModulePatch
         }
     }
 }
-
-/* SPT 3.11 Snapshot
-
-    public void method_8(EMenuType menuType)
-    {
-        ScreenController.SelectMenuItem(menuType);
-    }
-*/
