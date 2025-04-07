@@ -27,6 +27,10 @@ public static class GrenadeCookingHelper
             // Get current animator state and trigger the lever sound
             var currentState = animator.GetCurrentAnimatorStateInfo(1);
             controller.AnimationEventsEmitter.method_2(leverEvent.FunctionName, leverEvent.FunctionNameHash, leverEvent.Parameter, currentState.shortNameHash);
+
+            // // Alternative approach (for reference): Use BaseSoundPlayer to play lever sound
+            // var baseSoundPlayer = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
+            // baseSoundPlayer.SoundEventHandler("Lever");
         }
         else
         {
