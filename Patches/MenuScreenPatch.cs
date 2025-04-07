@@ -28,8 +28,13 @@ public class MenuScreenPatch : ModulePatch
     {
         if (!ConfigManager.UserWarningConfirmed.Value)
         {
-            string message = "Cooking a grenade in real life is extremely dangerous. Without proper training, it can explode and cause death or serious injury.\n"+
-                             "Do you understand?";
+            string message = 
+            "[WARNING]\n"+
+            "Cooking a grenade is extremely dangerous in real life. "+
+            "Time-delay setting may vary and fuzes may function before prescribed times. "+
+            "DO NOT “COOK OFF” the safety lever after pull ring with safety pin extraction. "+
+            "This action can lead to premature detonation of the grenade leading to severe injury, death.\n"+
+            "Do you acknowledge this warning and accept responsibility?";
             EFT.UI.ItemUiContext.Instance.ShowMessageWindow(
                 message,
                 () => ConfigManager.UserWarningConfirmed.Value = true,
