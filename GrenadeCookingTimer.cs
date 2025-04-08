@@ -71,18 +71,7 @@ public class GrenadeCookingTimer
         Plugin.log.LogInfo("StartForceThrowAfterDelay " + controller.GetInstanceID() + $" Wait: {controller.Item.GetExplDelay}");
         yield return new WaitForSeconds(controller.Item.GetExplDelay - 0.44f); // throw 0.44second little faster, about 0.48 is animation throw time
 
-        if (IsCooking && controller != null )//&& controller.GetInstanceID() != 0 &&
-            // (controller.WaitingForHighThrow || controller.WaitingForLowThrow) && 
-            // controller == Singleton<GameWorld>.Instance.MainPlayer.HandsController)
-            /*
-            controller == Singleton<GameWorld>.Instance.MainPlayer.HandsController) 
-            Prevents the grenade from being thrown immediately when you start cooking, throw it, and quickly cook the next grenade.
-            A controller is created for each grenade.
-
-            this will be fixed by         oldController.StopCoroutine(existingCoroutine);
-            I'm not sure if this issue will actually occur, but I added this just in case.
-
-            */
+        if (IsCooking && controller != null )
         {
             Plugin.log.LogInfo($"StartForceThrowAfterDelay {controller.GetInstanceID()} main:{Singleton<GameWorld>.Instance.MainPlayer.HandsController.GetInstanceID()}");
             ForceThrow(controller);
