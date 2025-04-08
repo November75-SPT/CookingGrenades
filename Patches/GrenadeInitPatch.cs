@@ -14,6 +14,7 @@ using SPT.Custom.Utils;
 namespace CookingGrenades.Patches;
 public class GrenadeInitPatch : ModulePatch
 {
+    private static readonly FieldInfo ImpactFuseTimeField = AccessTools.Field(typeof(Grenade), "float_3");
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.DeclaredMethod(typeof(Grenade), nameof(Grenade.Init));
@@ -21,6 +22,6 @@ public class GrenadeInitPatch : ModulePatch
     [PatchPostfix]
     public static void PatchPostfix(Grenade __instance, float timeSpent)
     {
-        Traverse.Create(__instance).Field("float_3").SetValue(timeSpent);
+        ImpactFuseTimeField.SetValue(__instance, timeSpent);
     }
 }
