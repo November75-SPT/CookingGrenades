@@ -15,20 +15,9 @@ namespace CookingGrenades.Patches
 {
     public class GrenadeInitPatch : ModulePatch
     {
-        // private static FieldInfo grenadeEmission_0FieldInfo = AccessTools.Field(typeof(Player.BaseGrenadeHandsController), "grenadeEmission_0");
         protected override MethodBase GetTargetMethod()
         {
-            // Resolve Harmony ambiguity between Grenade.Init and base Init with parameterTypes
-            Type[] parameterTypes = new Type[]
-            {
-                typeof(GrenadeSettings),              // settings
-                typeof(string),                       // profileId
-                typeof(ThrowWeapItemClass),           // throwWeap
-                typeof(float),                        // timeSpent
-                typeof(ISharedBallisticsCalculator),  // calculator
-                typeof(bool)                          // isBeingPlanted
-            };
-            return AccessTools.Method(typeof(Grenade), nameof(Grenade.Init), parameterTypes);
+            return AccessTools.DeclaredMethod(typeof(Grenade), nameof(Grenade.Init));
         }
         [PatchPostfix]
         public static void PatchPostfix(Grenade __instance,float timeSpent, float __state)
