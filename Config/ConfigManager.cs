@@ -57,7 +57,7 @@ internal static class ConfigManager
             0.0666666f, 
             new ConfigDescription(
                 "", 
-                new AcceptableValueRange<float>(0.001f, 1f),
+                new AcceptableValueRange<float>(0.001f, 0.6f),
                 new ConfigurationManagerAttributes {Order=1}));       
                                         
         #endregion RealisticFuseTime
