@@ -57,15 +57,17 @@ internal class FuseTimeTester
         float standardDeviation = UnityEngine.Mathf.Sqrt(varianceSum / ConfigManager.FuseTimeTestCount.Value);
 
         Plugin.log.LogInfo("=== Distribution Test Results ===");
-        Plugin.log.LogInfo($"Target Value: {tsetValue},FuseTime Spread Factor: {ConfigManager.FuseTimeSpreadFactor.Value}, Test Count {ConfigManager.FuseTimeTestCount.Value}");
+        Plugin.log.LogInfo($"Target Value: {tsetValue}, FuseTime Spread Factor: {ConfigManager.FuseTimeSpreadFactor.Value}, Test Count {ConfigManager.FuseTimeTestCount.Value}");
         Plugin.log.LogInfo($"Minimum Time: {minTime:F3} seconds");
         Plugin.log.LogInfo($"Maximum Time: {maxTime:F3} seconds");
         Plugin.log.LogInfo($"Average Time: {average:F3} seconds");
         Plugin.log.LogInfo($"Standard Deviation: {standardDeviation:F3} seconds");
-
+        
+        Plugin.log.LogInfo("=== Frequency Distribution ===");
         foreach (var (time, count) in fuseTimes2.OrderBy(x => x.Key))
         {
-            Plugin.log.LogInfo($"Time: {time:F2}, Count: {count}");
+            float percentage = (float)count / ConfigManager.FuseTimeTestCount.Value * 100f;
+            Plugin.log.LogInfo($"Time: {time,5:F2}, Count: {count,5}, Percentage: {percentage,6:F2}%");
         }
     }
 }
