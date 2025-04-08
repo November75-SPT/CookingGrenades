@@ -54,9 +54,9 @@ internal static class ConfigManager
         FuseTimeSpreadFactor = configFile.Bind(
             "1. Realistic Fuse Time", 
             "Fuse Time Spread Factor", 
-            0.0666666f, 
+            0.085f, 
             new ConfigDescription(
-                "", 
+                "Controls how much grenade fuse times vary (0.001 = almost fixed, 0.6 = wide range).", 
                 new AcceptableValueRange<float>(0.001f, 0.6f),
                 new ConfigurationManagerAttributes {Order=1}));       
                                         
