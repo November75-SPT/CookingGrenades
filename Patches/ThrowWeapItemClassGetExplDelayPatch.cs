@@ -23,12 +23,28 @@ public class ThrowWeapItemClassGetExplDelayPatch : ModulePatch
     {
         return AccessTools.PropertyGetter(typeof(ThrowWeapItemClass), nameof(ThrowWeapItemClass.GetExplDelay));
     }
-
+    static HashSet<string> uiTypes = new HashSet<string>
+    {
+        typeof(EFT.UI.InfoWindow).FullName,
+        typeof(EFT.UI.ItemUiContext).FullName,
+        typeof(EFT.UI.ItemSpecificationPanel).FullName,
+        typeof(EFT.UI.CompactCharacteristicPanel).FullName
+    };
     [PatchPostfix]
     public static void PatchPostfix(ThrowWeapItemClass __instance, ref float __result)
     {
         if (ConfigManager.RealisticFuseTimeEnable.Value)
         {
+            // ignore when call from iventory view
+            var stackTrace = new System.Diagnostics.StackTrace(2, false);
+            for (int i = 0; i < stackTrace.FrameCount; i++)
+            {                
+                if (uiTypes.Contains(stackTrace.GetFrame(i).GetMethod().DeclaringType.FullName))
+                {
+                    return;
+                }            
+            }
+
             var key = new WeakReference<ThrowWeapItemClass>(__instance);
             if (_explDelay.TryGetValue(key, out var existDelay))
             {
@@ -37,6 +53,7 @@ public class ThrowWeapItemClassGetExplDelayPatch : ModulePatch
             else
             {
                 var delay = MathUtils.GenerateNormalRandomBoxMuller(__result, __result * ConfigManager.FuseTimeSpreadFactor.Value);
+                Plugin.log.LogInfo($"__result: {__result}, FuseTimeSpreadFactor: {ConfigManager.FuseTimeSpreadFactor.Value}, Delay: {delay}");
                 _explDelay.Add(key, delay);
                 __result = delay;
             }
