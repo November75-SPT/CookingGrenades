@@ -35,14 +35,18 @@ public class ThrowWeapItemClassGetExplDelayPatch : ModulePatch
     {
         if (ConfigManager.RealisticFuseTimeEnable.Value)
         {
+            
             // ignore when call from iventory view
-            var stackTrace = new System.Diagnostics.StackTrace(2, false);
-            for (int i = 0; i < stackTrace.FrameCount; i++)
-            {                
-                if (uiTypes.Contains(stackTrace.GetFrame(i).GetMethod().DeclaringType.FullName))
-                {
-                    return;
-                }            
+            if (ConfigManager.ShowDefaultFuseTimeInInventoryUI.Value)
+            {
+                var stackTrace = new System.Diagnostics.StackTrace(2, false);
+                for (int i = 0; i < stackTrace.FrameCount; i++)
+                {                
+                    if (uiTypes.Contains(stackTrace.GetFrame(i).GetMethod().DeclaringType.FullName))
+                    {
+                        return;
+                    }            
+                }
             }
 
             var key = new WeakReference<ThrowWeapItemClass>(__instance);

@@ -4,6 +4,7 @@ namespace CookingGrenades.Config;
 internal static class ConfigManager
 {
     public static ConfigEntry<bool> EnableCookingNotification;
+    public static ConfigEntry<bool> ShowDefaultFuseTimeInInventoryUI;
     #region RealisticFuseTime
     public static ConfigEntry<bool> RealisticFuseTimeEnable;
     public static ConfigEntry<float> FuseTimeSpreadFactor;
@@ -29,7 +30,17 @@ internal static class ConfigManager
             new ConfigDescription(
                 "Show a notification when grenade cooking starts",
                 null,
+                new ConfigurationManagerAttributes {Order=1}));
+        ShowDefaultFuseTimeInInventoryUI = configFile.Bind(
+            "0. Cooking Grenades", 
+            "Show Default Fuse Time In Inventory UI", 
+            false, 
+            new ConfigDescription(
+                "If enabled, shows the default fuse time in inventory UI instead of randomized value.",
+                null,
                 new ConfigurationManagerAttributes {}));
+
+                
         #region RealisticFuseTime
 
         RealisticFuseTimeEnable = configFile.Bind(
