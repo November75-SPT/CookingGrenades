@@ -12,6 +12,9 @@ using EFT;
 using SPT.Custom.Utils;
 using EFT.InputSystem;
 using CookingGrenades.Utils;
+using Comfort.Common;
+using EFT.Weather;
+using System.Runtime.CompilerServices;
 
 namespace CookingGrenades.Patches;
 
@@ -60,6 +63,19 @@ public class ThrowWeapItemClassGetExplDelayPatch : ModulePatch
                 Plugin.log.LogInfo($"__result: {__result:F1}, FuseTimeSpreadFactor: {ConfigManager.FuseTimeSpreadFactor.Value}, Delay: {delay}");
                 _explDelay.Add(key, delay);
                 __result = delay;
+            }
+
+            
+            // Adjust fuse time based on temperature
+            // factory map dosn't have WeatherController.Instance, they are null
+            var weather = EFT.Weather.WeatherController.Instance;
+            if(weather != null)
+            {
+                if (Config.ConfigManager.DebugGUI.Value)
+                {
+                    Utils.DebugDisplay.Instance.InsertDisplayObject("Temperature", () => EFT.Weather.WeatherController.Instance.WeatherCurve.Temperature);
+                }
+                __result = WeatherUtils.AdjustFuseTimeForTemperature(__result, weather.WeatherCurve.Temperature);
             }
         }
     }
