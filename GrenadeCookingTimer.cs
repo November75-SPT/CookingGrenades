@@ -68,17 +68,17 @@ public class GrenadeCookingTimer
 
     private IEnumerator ForceThrowCoroutine(Player.GrenadeHandsController controller)
     {
-        Plugin.log.LogInfo("StartForceThrowAfterDelay " + controller.GetInstanceID() + $" Wait: {controller.Item.GetExplDelay}");
+        // Plugin.log.LogInfo("StartForceThrowAfterDelay " + controller.GetInstanceID() + $" Wait: {controller.Item.GetExplDelay}");
         yield return new WaitForSeconds(controller.Item.GetExplDelay - 0.44f); // throw 0.44second little faster, about 0.48 is animation throw time
 
         if (IsCooking && controller != null )
         {
-            Plugin.log.LogInfo($"StartForceThrowAfterDelay {controller.GetInstanceID()} main:{Singleton<GameWorld>.Instance.MainPlayer.HandsController.GetInstanceID()}");
+            // Plugin.log.LogInfo($"StartForceThrowAfterDelay {controller.GetInstanceID()} main:{Singleton<GameWorld>.Instance.MainPlayer.HandsController.GetInstanceID()}");
             ForceThrow(controller);
         }
         else
         {
-            Plugin.log.LogInfo($"StartForceThrowAfterDelay else {controller.GetInstanceID()} main:{Singleton<GameWorld>.Instance.MainPlayer.HandsController.GetInstanceID()}");
+            // Plugin.log.LogInfo($"StartForceThrowAfterDelay else {controller.GetInstanceID()} main:{Singleton<GameWorld>.Instance.MainPlayer.HandsController.GetInstanceID()}");
         }
     }
 
@@ -92,7 +92,7 @@ public class GrenadeCookingTimer
         if (method != null)
         {
             method.Invoke(controller, null);
-            Plugin.log.LogInfo($"Forced throw for {CookingItem.Id} after 5 seconds");
+            // Plugin.log.LogInfo($"Forced throw for {CookingItem.Id} after 5 seconds");
         }
         else
         {

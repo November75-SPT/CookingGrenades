@@ -57,7 +57,7 @@ public class ThrowWeapItemClassGetExplDelayPatch : ModulePatch
             else
             {
                 var delay = MathUtils.GenerateNormalRandomBoxMuller(__result, __result * ConfigManager.FuseTimeSpreadFactor.Value);
-                Plugin.log.LogInfo($"__result: {__result:F1}, FuseTimeSpreadFactor: {ConfigManager.FuseTimeSpreadFactor.Value}, Delay: {delay}");
+                // Plugin.log.LogInfo($"__result: {__result:F1}, FuseTimeSpreadFactor: {ConfigManager.FuseTimeSpreadFactor.Value}, Delay: {delay}");
                 _explDelay.Add(key, delay);
                 __result = delay;
             }
