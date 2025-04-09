@@ -35,11 +35,9 @@ This mod adds grenade cooking mechanics and realistic fuse time randomization.
 
 ## Installation
 
-- Unzip `CookingGrenades.zip` into your SPT folder.
+- Unzip into your SPT folder.
 
 ## Configuration
-
-Settings are managed in `BepInEx/config/CookingGrenades.cfg`.
 
 ### Options
 
