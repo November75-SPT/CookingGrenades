@@ -45,6 +45,8 @@ public class EftGamePlayerOwnerTranslateCommandPatch : ModulePatch
                 case ECommand.SelectFastSlot9:
                 case ECommand.SelectFastSlot0:
                 case ECommand.SelectKnife:
+                case ECommand.QuickKnifeKick:
+                case ECommand.Escape:
                     __result = InputNode.ETranslateResult.BlockAll;
                     return false;
             }
