@@ -47,7 +47,7 @@ public class GrenadeCookingTimer
                 {
                     explDelay = throwWeapItemClass.GetExplDelay;
                 }
-                return $"{GetCookingTime():F2}/{explDelay:F2} sec ({GetCookingTime() / explDelay * 100:F1}%)"; 
+                return $"{GetCookingTime():F3}/{explDelay:F3} sec ({GetCookingTime() / explDelay * 100:F1}%)"; 
             });            
         }
     }
