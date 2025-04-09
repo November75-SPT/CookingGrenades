@@ -34,7 +34,7 @@ internal static class ConfigManager
         ShowDefaultFuseTimeInInventoryUI = configFile.Bind(
             "0. Cooking Grenades", 
             "Show Default Fuse Time In Inventory UI", 
-            false, 
+            true, 
             new ConfigDescription(
                 "If enabled, shows the default fuse time in inventory UI instead of randomized value.",
                 null,
@@ -75,7 +75,7 @@ internal static class ConfigManager
         FuseTimeTestCount = configFile.Bind(
             "2. Realistic Fuse Iime Tester", 
             "Fuse Time Test Count", 
-            1000, 
+            10000, 
             new ConfigDescription(
                 "Number of iterations for fuse time distribution test.",
                 new AcceptableValueRange<int>(1, 100000),
@@ -98,7 +98,7 @@ internal static class ConfigManager
         DebugGUI = configFile.Bind(
             "3. Debug", 
             "Enable Cooking Time GUI", 
-            true, 
+            false, 
             new ConfigDescription(
                 "",
                 null,
