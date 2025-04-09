@@ -39,8 +39,6 @@ This mod adds grenade cooking mechanics and realistic fuse time randomization.
 
 ## Configuration
 
-Settings are managed in `BepInEx/config/CookingGrenades.cfg`.
-
 ### Options
 
 #### 0. Cooking Grenades
