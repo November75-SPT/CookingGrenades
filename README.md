@@ -2,22 +2,36 @@
 
 This mod adds grenade cooking mechanics and realistic fuse time randomization.
 
-## Features
+## ✨ Features
 
-- **Cooking**: 
-  - Allows cooking of grenades.
-  - Cooking cannot start until the safety pin removal animation is fully completed.
-  - Prevents the user from stowing the grenade back into inventory while cooking.
-- **Cooking Method**: 
-  - The cooking method involves holding the mouse button to prepare to throw the grenade, then pressing the opposite mouse button to start cooking. Releasing the held mouse button throws the cooked grenade. Initially, I wanted a Unity object to spawn in the user's hand and explode when the time runs out, but this was too complex and beyond my scope, so I opted to automatically throw the grenade when the fuse time expires.
-- **Cooking Notification**: 
-  - Optional notification when you start cooking a grenade.
-- **Realistic Fuse Time Randomization**: 
-  - Fuse times follow a normal distribution, adjustable via `FuseTimeSpreadFactor`.
-- **Inventory UI Toggle**: 
-  - Choose to display either the default fuse time or the randomized value in the inventory UI.
-- **Fuse Time Tester**: 
-  - Test and visualize fuse time distribution with configurable parameters.
+### Cooking
+- Allows **cooking of grenades** (holding before throwing).
+- Cooking **only starts after** the safety pull ring removal animation is complete.
+- Prevents storing the grenade back into inventory while cooking.
+
+### Cooking Method
+
+- **Hold** the mouse button to prepare to throw the grenade.
+- **Press the opposite mouse button** to start cooking.
+- **Release** the originally held button to throw the cooked grenade.
+- (note) Originally planned to spawn a Unity object that explodes when the timer expires, but due to complexity, the system was simplified:
+  - Grenade is **automatically thrown** when the fuse time expires.
+
+### Cooking Notification (Optional)
+- Optionally displays a **notification** when cooking begins.
+
+### Realistic Fuse Time Randomization
+
+- Fuse times follow a **normal distribution**.
+- Adjustable using the `FuseTimeSpreadFactor` parameter.
+
+### Inventory UI Toggle
+
+- Toggle between showing the **default fuse time** or the **randomized fuse time** in the inventory UI.
+
+### Fuse Time Tester
+
+- tool to **test and visualize** fuse time distributions for debugging and balance.
 
 ## Installation
 
