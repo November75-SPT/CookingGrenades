@@ -41,7 +41,6 @@ public static class GrenadeCookingHelper
         {
             NotificationManagerClass.DisplayMessageNotification("Cooking Started");
         }
-        cookingTimer.StartCooking(controller);
-        Plugin.log.LogInfo($"start cooking {cookingTimer.CookingStartTime}");        
+        cookingTimer.StartCooking(controller);    
     }
 }

@@ -45,7 +45,6 @@ public class GrenadeHandsControllermethod_2Patch : ModulePatch
         var transform_1 = Traverse.Create(gparam_0).Field("transform_1").GetValue<Transform>();
         transform_1.gameObject.SetActive(value: false);
         gparam_0.vmethod_1(cookingTime, low);
-        Plugin.log.LogInfo($"Player.GrenadeHandsController.Class1156.method_2 PatchPrefix");
         return false;
     }
 }
