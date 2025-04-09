@@ -22,6 +22,7 @@ namespace CookingGrenades
         {
             log = Logger;
             ConfigManager.Init(Config);
+            ConfigEventHandler.Init();
             Utils.FuseTimeTester.Init();
 
             new GrenadeInitPatch().Enable();

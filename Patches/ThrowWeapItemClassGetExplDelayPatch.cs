@@ -19,6 +19,7 @@ public class ThrowWeapItemClassGetExplDelayPatch : ModulePatch
 {
     // Used WeakReference to avoid memory leaks and allow garbage collection.
     static Dictionary<WeakReference<ThrowWeapItemClass>, float> _explDelay = new Dictionary<WeakReference<ThrowWeapItemClass>, float>(new WeakReferenceComparer());
+    public static Dictionary<WeakReference<ThrowWeapItemClass>, float> ExplDelay => _explDelay;
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.PropertyGetter(typeof(ThrowWeapItemClass), nameof(ThrowWeapItemClass.GetExplDelay));
