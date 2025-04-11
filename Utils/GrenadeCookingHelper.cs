@@ -25,6 +25,8 @@ public static class GrenadeCookingHelper
     private static void PlaySound(Player.GrenadeHandsController controller)
     {
         var animator = controller.FirearmsAnimator.Animator;
+        var baseSoundPlayer = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
+
         AnimationEventSystem.AnimationEvent fuseEvent = controller.AnimationEventsEmitter._animationEventsStateBehaviours
             .OfType<AnimationEventSystem.AnimationEventsStateBehaviour>()
             .SelectMany(x => x.AnimationEvents)
@@ -37,12 +39,11 @@ public static class GrenadeCookingHelper
             controller.AnimationEventsEmitter.method_3(fuseEvent, animator, currentState, fuseEvent.Time);
         }
         else // Otherwise, play the ping sound. Similar one is "TripwirePin"
-        {
-            var baseSoundPlayer = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
+        {            
             baseSoundPlayer.SoundEventHandler("TripwirePin");
         }
         // mark to disable fuze sound event after throw one time
-        Patches.BaseSoundPlayerOnSoundAtPointPatch.HaveToNotRunFuseSound = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
+        Patches.BaseSoundPlayerOnSoundAtPointPatch.HaveToNotRunFuseSound = baseSoundPlayer;
     }
 }
 
