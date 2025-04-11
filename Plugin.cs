@@ -26,9 +26,10 @@ namespace CookingGrenades
             Utils.FuseTimeTester.Init();
 
             new GrenadeInitPatch().Enable();
-            new GrenadeHandsControllermethod_2Patch().Enable();
             new PlayerGrenadeHandsControllerHandleFireInputPatch().Enable();
             new PlayerGrenadeHandsControllerHandleAltFireInputPatch().Enable();
+            new GrenadeHandsControllermethod_2Patch().Enable();
+            new BaseSoundPlayerOnSoundAtPointPatch().Enable();
             new EftGamePlayerOwnerTranslateCommandPatch().Enable();
             new ThrowWeapItemClassGetExplDelayPatch().Enable();
             if (!ConfigManager.UserWarningConfirmed.Value)
