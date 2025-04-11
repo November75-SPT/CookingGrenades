@@ -15,21 +15,21 @@ public class GrenadeCookingTimer
 {
     private float _cookingStartTime = 0f;
     public float CookingStartTime => _cookingStartTime;
-    public bool IsCooking => _cookingStartTime > 0f && CookingItem != null;
-    public ThrowWeapItemClass CookingItem { get; private set; }
+    public bool IsCooking => _cookingStartTime > 0f && Controller != null;
+    public Player.GrenadeHandsController Controller { get; private set; }
     public Coroutine existingCoroutine =null;
     public GrenadeCookingTimer()
     {
-        CookingItem = null;
+        Controller = null;
     }
-    public GrenadeCookingTimer(ThrowWeapItemClass item)
+    public GrenadeCookingTimer(Player.GrenadeHandsController controller)
     {
-        CookingItem = item;
+        Controller = controller;
     }
 
-    public void SetCookingItem(ThrowWeapItemClass item)
+    public void SetCookingItem(Player.GrenadeHandsController controller)
     {
-        CookingItem = item;
+        Controller = controller;
         _cookingStartTime = 0f;
     }
     public void StartCooking(Player.GrenadeHandsController controller)
@@ -59,7 +59,7 @@ public class GrenadeCookingTimer
 
     public void Reset(Player.GrenadeHandsController oldController)
     {
-        CookingItem = null;
+        Controller = null;
         _cookingStartTime = 0f;
         oldController.StopCoroutine(existingCoroutine);
         oldController = null;
