@@ -5,6 +5,7 @@ internal static class ConfigManager
 {
     public static ConfigEntry<bool> EnableCookingNotification;
     public static ConfigEntry<bool> ShowDefaultFuseTimeInInventoryUI;
+    public static ConfigEntry<bool> UseAlternativePinSound;
     #region RealisticFuseTime
     public static ConfigEntry<bool> RealisticFuseTimeEnable;
     public static ConfigEntry<float> FuseTimeSpreadFactor;
@@ -39,8 +40,16 @@ internal static class ConfigManager
                 "If enabled, shows the default fuse time in inventory UI instead of randomized value.",
                 null,
                 new ConfigurationManagerAttributes {}));
+        UseAlternativePinSound = configFile.Bind(
+            "0. Cooking Grenades",
+            "Use Alternative Pin Sound",
+            true,
+            new ConfigDescription(
+                "If enabled, plays an alternative pin sound (TripwirePin) for certain grenades instead of the fuse sound.\n" +
+                "Affected grenades: M67, V40, M18, M7290, RDG-2B",
+                null,
+                new ConfigurationManagerAttributes { Order = -1 }));
 
-                
         #region RealisticFuseTime
 
         RealisticFuseTimeEnable = configFile.Bind(

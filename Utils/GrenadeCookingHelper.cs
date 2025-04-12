@@ -29,7 +29,7 @@ public static class GrenadeCookingHelper
         var baseSoundPlayer = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
 
         // check fuse sound and play the ping sound. Similar one is "TripwirePin"
-        if (ShouldSkipFuseSound(controller.Item.StringTemplateId))
+        if (ConfigManager.UseAlternativePinSound.Value && ShouldSkipFuseSound(controller.Item.StringTemplateId))
         {                       
             // there is no TripwirePin Event in current _animationEventsStateBehaviours so have to play on baseSoundPlayer          
             baseSoundPlayer.SoundEventHandler("TripwirePin");
