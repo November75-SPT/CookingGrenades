@@ -28,8 +28,15 @@ public static class GrenadeCookingHelper
         var animator = controller.FirearmsAnimator.Animator;
         var baseSoundPlayer = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
 
+        AnimationEventSystem.AnimationEvent fuseSoundEvent = controller.AnimationEventsEmitter._animationEventsStateBehaviours
+            .OfType<AnimationEventSystem.AnimationEventsStateBehaviour>()
+            .SelectMany(x => x.AnimationEvents)
+            .FirstOrDefault(evt => evt._functionName == "SoundAtPoint" && evt.Parameter.StringParam == "SndFuse");
+
+        bool shouldPlayAlternativeSound = fuseSoundEvent == null || 
+            (ConfigManager.UseAlternativePinSound.Value && ShouldSkipFuseSound(controller.Item.StringTemplateId));
         // check fuse sound and play the ping sound. Similar one is "TripwirePin"
-        if (ConfigManager.UseAlternativePinSound.Value && ShouldSkipFuseSound(controller.Item.StringTemplateId))
+        if (shouldPlayAlternativeSound)
         {                       
             // there is no TripwirePin Event in current _animationEventsStateBehaviours so have to play on baseSoundPlayer          
             baseSoundPlayer.SoundEventHandler("TripwirePin");
@@ -37,11 +44,6 @@ public static class GrenadeCookingHelper
         // Otherwise, play fuze sound
         else 
         {
-            AnimationEventSystem.AnimationEvent fuseSoundEvent = controller.AnimationEventsEmitter._animationEventsStateBehaviours
-                .OfType<AnimationEventSystem.AnimationEventsStateBehaviour>()
-                .SelectMany(x => x.AnimationEvents)
-                .FirstOrDefault(evt => evt._functionName == "SoundAtPoint" && evt.Parameter.StringParam == "SndFuse");
-
             var currentState = animator.GetCurrentAnimatorStateInfo(1);
             controller.AnimationEventsEmitter.method_3(fuseSoundEvent, animator, currentState, fuseSoundEvent.Time);
         }
