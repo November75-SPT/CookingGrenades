@@ -2,6 +2,7 @@ using EFT;
 using UnityEngine;
 using CookingGrenades.Config;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace CookingGrenades.Utils;
 public static class GrenadeCookingHelper
@@ -27,49 +28,75 @@ public static class GrenadeCookingHelper
         var animator = controller.FirearmsAnimator.Animator;
         var baseSoundPlayer = controller.ControllerGameObject.GetComponent<BaseSoundPlayer>();
 
-        AnimationEventSystem.AnimationEvent fuseEvent = controller.AnimationEventsEmitter._animationEventsStateBehaviours
-            .OfType<AnimationEventSystem.AnimationEventsStateBehaviour>()
-            .SelectMany(x => x.AnimationEvents)
-            .FirstOrDefault(evt => evt._functionName == "SoundAtPoint" && evt.Parameter.StringParam == "SndFuse");
-
-        // If there's a fuse sound event, play it first.
-        if (fuseEvent != null)
-        {
-            var currentState = animator.GetCurrentAnimatorStateInfo(1);
-            controller.AnimationEventsEmitter.method_3(fuseEvent, animator, currentState, fuseEvent.Time);
-        }
-        else // Otherwise, play the ping sound. Similar one is "TripwirePin"
-        {            
+        // check fuse sound and play the ping sound. Similar one is "TripwirePin"
+        if (ShouldSkipFuseSound(controller.Item.StringTemplateId))
+        {                       
+            // there is no TripwirePin Event in current _animationEventsStateBehaviours so have to play on baseSoundPlayer          
             baseSoundPlayer.SoundEventHandler("TripwirePin");
         }
+        // Otherwise, play fuze sound
+        else 
+        {
+            AnimationEventSystem.AnimationEvent fuseSoundEvent = controller.AnimationEventsEmitter._animationEventsStateBehaviours
+                .OfType<AnimationEventSystem.AnimationEventsStateBehaviour>()
+                .SelectMany(x => x.AnimationEvents)
+                .FirstOrDefault(evt => evt._functionName == "SoundAtPoint" && evt.Parameter.StringParam == "SndFuse");
+
+            var currentState = animator.GetCurrentAnimatorStateInfo(1);
+            controller.AnimationEventsEmitter.method_3(fuseSoundEvent, animator, currentState, fuseSoundEvent.Time);
+        }
+
         // mark to disable fuze sound event after throw one time
         Patches.BaseSoundPlayerOnSoundAtPointPatch.HaveToNotRunFuseSound = baseSoundPlayer;
+    }    
+    
+    private static readonly HashSet<string> SkipFuseSoundGrenades = new HashSet<string>
+    {
+        GrenadeIDs.GRENADE_M67_HAND,
+        GrenadeIDs.GRENADE_V40_MINI,
+        GrenadeIDs.GRENADE_M18_SMOKE_GRENADE_GREEN,
+        GrenadeIDs.GRENADE_MODEL_7290_FLASH_BANG,
+        GrenadeIDs.GRENADE_RDG2B_SMOKE
+    };
+    private static bool ShouldSkipFuseSound(string input)
+    {
+        return SkipFuseSoundGrenades.Contains(input);
+    }
+
+    // from server ItemTpl
+    public static class GrenadeIDs
+    {
+
+        public const string  GRENADE_F1_HAND = "5710c24ad2720bc3458b45a3";
+        public const string  GRENADE_M18_SMOKE_GRENADE_GREEN = "617aa4dd8166f034d57de9c5";
+        public const string  GRENADE_M67_HAND = "58d3db5386f77426186285a0";
+        public const string  GRENADE_MODEL_7290_FLASH_BANG = "619256e5f8af2c1a4e1f5d92";
+        public const string  GRENADE_RDG2B_SMOKE = "5a2a57cfc4a2826c6e06d44a";
+        public const string  GRENADE_RGD5_HAND = "5448be9a4bdc2dfd2f8b456a";
+        public const string  GRENADE_RGN_HAND = "617fd91e5539a84ec44ce155";
+        public const string  GRENADE_RGO_HAND = "618a431df1eb8e24b8741deb";
+        public const string  GRENADE_V40_MINI = "66dae7cbeb28f0f96809f325";
+        public const string  GRENADE_VOG17_KHATTABKA_IMPROVISED_HAND = "5e32f56fcb6d5863cc5e5ee4";
+        public const string  GRENADE_VOG25_KHATTABKA_IMPROVISED_HAND = "5e340dcdcb6d5863cc5e5efb";
+        public const string  GRENADE_ZARYA_STUN = "5a0c27731526d80618476ac4";
     }
 }
 
 
 
-
 /*      
-
 -		[0]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndDraw"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[1]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndHolster"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[2]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndSafety"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[3]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndThrow"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[4]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndPin"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[5]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndLever"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[6]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndDropBackpack"	string
 +		SoundClips	{UnityEngine.AudioClip[0x00000003]}	UnityEngine.AudioClip[]
@@ -78,40 +105,26 @@ public static class GrenadeCookingHelper
 +		SoundClips	{UnityEngine.AudioClip[0x00000003]}	UnityEngine.AudioClip[]
 -		[8]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndDefuseEnd"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[9]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndDefuseLoop"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[10]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwirePin"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[11]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwirePlanting"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[12]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwirePlantingConcrete"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[13]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwirePlantingSoil"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[14]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwirePlantingWire"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[15]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwireUnplanting"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[16]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndTripwireUnplantingWire"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[17]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndHands1"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[18]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndHands2"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
 -		[19]	{BaseSoundPlayer.SoundElement}	BaseSoundPlayer.SoundElement
 		EventName	"SndHands3"	string
-+		SoundClips	{UnityEngine.AudioClip[0x00000001]}	UnityEngine.AudioClip[]
-
-
 */
